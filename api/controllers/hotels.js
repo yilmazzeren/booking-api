@@ -1,20 +1,21 @@
 import express from "express";
 import Hotel from "../models/Hotel.js";
+import { createError } from "../utils/error.js";
 
 //CREATE HOTEL
-export const CreateHotel = async (req, res) => {
+export const CreateHotel = async (req, res, next) => {
   const newHotel = new Hotel(req.body);
 
   try {
     const savedHotel = await newHotel.save();
     res.status(200).json(savedHotel);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 };
 
 // UPDATE HOTEL
-export const UpdateHotel = async (req, res) => {
+export const UpdateHotel = async (req, res, next) => {
   try {
     const updatedHotel = await Hotel.findByIdAndUpdate(
       req.params.id,
@@ -25,36 +26,39 @@ export const UpdateHotel = async (req, res) => {
     );
     res.status(200).json(updatedHotel);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 };
 
 // DELETE HOTEL
-export const DeleteHotel = async (req, res) => {
+export const DeleteHotel = async (req, res, next) => {
   try {
     await Hotel.findByIdAndDelete(req.params.id);
     res.status(200).json("Hotel has been deleted");
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 };
 
 // GET HOTEL
-export const GetHotel = async (req, res) => {
+export const GetHotel = async (req, res, next) => {
   try {
     const hotel = await Hotel.findById(req.params.id);
     res.status(200).json(hotel);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 };
 
 // GET ALL HOTELS
-export const GetAllHotel = async (req, res) => {
+export const GetAllHotel = async (req, res, next) => {
+  // const failed = true;
+  // if (failed) return next(createError(401, "You are not authenticated!"));
+
   try {
     const hotels = await Hotel.find();
     res.status(200).json(hotels);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 };
