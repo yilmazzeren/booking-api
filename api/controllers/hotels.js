@@ -1,6 +1,4 @@
-import express from "express";
 import Hotel from "../models/Hotel.js";
-import { createError } from "../utils/error.js";
 
 //CREATE HOTEL
 export const CreateHotel = async (req, res, next) => {
