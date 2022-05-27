@@ -13,6 +13,7 @@ export const register = async (req, res, next) => {
       username: req.body.username,
       email: req.body.email,
       password: hash,
+      isAdmin: req.body.isAdmin,
     });
 
     await newUser.save();
@@ -41,7 +42,7 @@ export const login = async (req, res, next) => {
     const { password, isAdmin, ...otherDetails } = user._doc;
     res
       .cookie("access_token", token, {
-        httpOnly: true,
+        httpOnly: true, // it doesn't allow any client secret to reach
       })
       .status(200)
       .json({ ...otherDetails });
