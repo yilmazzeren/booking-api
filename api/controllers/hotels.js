@@ -1,7 +1,7 @@
 import Hotel from "../models/Hotel.js";
 
 //CREATE HOTEL
-export const CreateHotel = async (req, res, next) => {
+export const createHotel = async (req, res, next) => {
   const newHotel = new Hotel(req.body);
 
   try {
@@ -13,7 +13,7 @@ export const CreateHotel = async (req, res, next) => {
 };
 
 // UPDATE HOTEL
-export const UpdateHotel = async (req, res, next) => {
+export const updateHotel = async (req, res, next) => {
   try {
     const updatedHotel = await Hotel.findByIdAndUpdate(
       req.params.id,
@@ -29,7 +29,7 @@ export const UpdateHotel = async (req, res, next) => {
 };
 
 // DELETE HOTEL
-export const DeleteHotel = async (req, res, next) => {
+export const deleteHotel = async (req, res, next) => {
   try {
     await Hotel.findByIdAndDelete(req.params.id);
     res.status(200).json("Hotel has been deleted");
@@ -39,7 +39,7 @@ export const DeleteHotel = async (req, res, next) => {
 };
 
 // GET HOTEL
-export const GetHotel = async (req, res, next) => {
+export const getHotel = async (req, res, next) => {
   try {
     const hotel = await Hotel.findById(req.params.id);
     res.status(200).json(hotel);
@@ -49,7 +49,7 @@ export const GetHotel = async (req, res, next) => {
 };
 
 // GET ALL HOTELS
-export const GetAllHotel = async (req, res, next) => {
+export const getAllHotels = async (req, res, next) => {
   // const failed = true;
   // if (failed) return next(createError(401, "You are not authenticated!"));
 

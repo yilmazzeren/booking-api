@@ -1,27 +1,27 @@
 import express from "express";
 import {
-  CreateHotel,
-  DeleteHotel,
-  GetAllHotel,
-  GetHotel,
-  UpdateHotel,
+  createHotel,
+  deleteHotel,
+  getAllHotels,
+  getHotel,
+  updateHotel,
 } from "../controllers/hotels.js";
 import { verifyAdmin, verifyToken, verifyUser } from "../utils/verifyToken.js";
 const router = express.Router();
 
 // CREATE
-router.post("/", verifyAdmin, CreateHotel);
+router.post("/", verifyAdmin, createHotel);
 
 // UPDATE
-router.put("/:id", verifyAdmin, UpdateHotel);
+router.put("/:id", verifyAdmin, updateHotel);
 
 // DELETE
-router.delete("/:id", verifyAdmin, DeleteHotel);
+router.delete("/:id", verifyAdmin, deleteHotel);
 
 // GET
-router.get("/:id", GetHotel);
+router.get("/:id", getHotel);
 
 // GET ALL
-router.get("/", GetAllHotel);
+router.get("/", getAllHotels);
 
 export default router;
