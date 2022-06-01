@@ -129,14 +129,14 @@ export default function Header({ type }) {
                         <button
                           disabled={options.adult <= 1}
                           onClick={() => handleOption("adult", "d")}
-                          className="border border-blue-400 border-2 px-3 py-1 disabled:cursor-not-allowed"
+                          className=" border-blue-400 border-2 px-3 py-1 disabled:cursor-not-allowed"
                         >
                           -
                         </button>
                         <span>{options.adult}</span>
                         <button
                           onClick={() => handleOption("adult", "i")}
-                          className="border border-blue-400 border-2 px-3 py-1 "
+                          className=" border-blue-400 border-2 px-3 py-1 "
                         >
                           +
                         </button>
@@ -148,14 +148,14 @@ export default function Header({ type }) {
                         <button
                           disabled={options.children <= 0}
                           onClick={() => handleOption("children", "d")}
-                          className="border border-blue-400 border-2 px-3 py-1 disabled:cursor-not-allowed"
+                          className=" border-blue-400 border-2 px-3 py-1 disabled:cursor-not-allowed"
                         >
                           -
                         </button>
                         <span>{options.children}</span>
                         <button
                           onClick={() => handleOption("children", "i")}
-                          className="border border-blue-400 border-2 px-3 py-1 "
+                          className=" border-blue-400 border-2 px-3 py-1 "
                         >
                           +
                         </button>

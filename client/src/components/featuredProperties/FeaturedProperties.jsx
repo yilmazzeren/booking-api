@@ -2,7 +2,6 @@ import useFetch from "../../hooks/useFetch";
 
 export default function FeaturedProperties() {
   const { data, loading, error } = useFetch("/hotels?featured=true&limit=4");
-  console.log(data);
   return (
     <div className="w-full max-w-5xl flex justify-between gap-5">
       {loading

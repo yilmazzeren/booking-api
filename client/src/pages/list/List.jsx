@@ -1,10 +1,11 @@
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
+import useFetch from "../../hooks/useFetch";
 
 export default function List() {
   const location = useLocation();
@@ -12,6 +13,15 @@ export default function List() {
   const [date, setDate] = useState(location.state.date);
   const [openDate, setOpenDate] = useState(true);
   const [options, setOptions] = useState(location.state.options);
+  const [min, setMin] = useState(undefined);
+  const [max, setMax] = useState(undefined);
+
+  const { data, loading, error, reFetch } = useFetch(
+    `/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`
+  );
+  const handleClick = () => {
+    reFetch();
+  };
   return (
     <div>
       <Navbar />
@@ -55,6 +65,7 @@ export default function List() {
                   <input
                     type="number"
                     className="w-12 outline-none rounded p-1"
+                    onChange={(e) => setMin(e.target.value)}
                   />
                 </div>
                 <div className="flex justify-between mb-2 text-gray-400 text-xs">
@@ -64,6 +75,7 @@ export default function List() {
                   <input
                     type="number"
                     className="w-12 outline-none rounded p-1"
+                    onChange={(e) => setMax(e.target.value)}
                   />
                 </div>
                 <div className="flex justify-between mb-2 text-gray-400 text-xs">
@@ -95,20 +107,23 @@ export default function List() {
                 </div>
               </div>
             </div>
-            <button className="p-2 bg-blue-400  text-white border-none w-full font-medium cursor-pointer">
+            <button
+              onClick={handleClick}
+              className="p-2 bg-blue-400  text-white border-none w-full font-medium cursor-pointer"
+            >
               Search
             </button>
           </div>
           <div style={{ flex: "3" }}>
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
+            {loading ? (
+              "Loading"
+            ) : (
+              <Fragment>
+                {data.map((item) => (
+                  <SearchItem item={item} key={item._id} />
+                ))}
+              </Fragment>
+            )}
           </div>
         </div>
       </div>
