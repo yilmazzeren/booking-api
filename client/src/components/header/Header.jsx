@@ -167,14 +167,14 @@ export default function Header({ type }) {
                         <button
                           disabled={options.room <= 1}
                           onClick={() => handleOption("room", "d")}
-                          className="border border-blue-400 border-2 px-3 py-1 disabled:cursor-not-allowed"
+                          className=" border-blue-400 border-2 px-3 py-1 disabled:cursor-not-allowed"
                         >
                           -
                         </button>
                         <span>{options.room}</span>
                         <button
                           onClick={() => handleOption("room", "i")}
-                          className="border border-blue-400 border-2 px-3 py-1 "
+                          className=" border-blue-400 border-2 px-3 py-1 "
                         >
                           +
                         </button>
