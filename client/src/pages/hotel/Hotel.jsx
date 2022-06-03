@@ -11,12 +11,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Fragment, useContext, useState } from "react";
 import useFetch from "../../hooks/useFetch";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
+import { AuthContext } from "../../context/AuthContext";
+import Reserve from "../../components/reserve/Reserve";
 
 export default function Hotel() {
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const location = useLocation();
   const id = location.pathname.split("/")[2];
   const photos = [
@@ -65,6 +68,16 @@ export default function Hotel() {
     return diffDays;
   }
   const days = dayDifference(dates[0].endDate, dates[0].startDate);
+
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handleClick = () => {
+    if (user) {
+      setOpenModal(true);
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <div>
       <Navbar />
@@ -102,7 +115,10 @@ export default function Hotel() {
               </div>
             )}
             <div className="w-full max-w-5xl flex flex-col gap-2 relative">
-              <button className="absolute top-2 right-0 border-none py-2 px-5 bg-blue-300 text-white font-bold rounded cursor-pointer">
+              <button
+                onClick={handleClick}
+                className="absolute top-2 right-0 border-none py-2 px-5 bg-blue-300 text-white font-bold rounded cursor-pointer"
+              >
                 Reserve or Book Now!
               </button>
               <h1 className="text-xs">{data.name}</h1>
@@ -157,6 +173,7 @@ export default function Hotel() {
           </div>
         </Fragment>
       )}
+      {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />}
     </div>
   );
 }
