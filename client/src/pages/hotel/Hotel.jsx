@@ -9,9 +9,10 @@ import {
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useLocation } from "react-router-dom";
+import { SearchContext } from "../../context/SearchContext";
 
 export default function Hotel() {
   const [slideNumber, setSlideNumber] = useState(0);
@@ -38,7 +39,7 @@ export default function Hotel() {
       src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707389.jpg?k=52156673f9eb6d5d99d3eed9386491a0465ce6f3b995f005ac71abc192dd5827&o=&hp=1",
     },
   ];
-
+  const { dates, city, options } = useContext(SearchContext);
   const handleOpen = (i) => {
     setSlideNumber(i);
     setOpen(true);
@@ -57,7 +58,13 @@ export default function Hotel() {
   };
 
   const { data, loading, error } = useFetch(`/hotels/find/${id}`);
-
+  const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+  function dayDifference(date1, date2) {
+    const timeDiff = Math.abs(date2.getTime() - date1.getTime());
+    const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
+    return diffDays;
+  }
+  const days = dayDifference(dates[0].endDate, dates[0].startDate);
   return (
     <div>
       <Navbar />
@@ -129,14 +136,15 @@ export default function Hotel() {
                 </div>
                 <div className="flex-1 bg-blue-200 p-5 flex flex-col gap-5">
                   <h1 className="text-lg text-gray-500">
-                    Perfect for a 9-night stay!
+                    Perfect for a {days}-night stay!
                   </h1>
                   <span className="text-sm">
                     Located in the real heart of Krakow, this property has an
                     excellent location score of 9.8!
                   </span>
                   <h2 className="font-light">
-                    <b>$945</b> (9 nights)
+                    <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
+                    nights)
                   </h2>
                   <button className="border-none py-2 px-5 bg-blue-400 text-white font-bold cursor-pointer rounded">
                     Reserve or Book Now!
