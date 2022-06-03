@@ -15,6 +15,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Header({ type }) {
   const [destination, setDestination] = useState("");
@@ -47,6 +48,8 @@ export default function Header({ type }) {
     });
     navigate("/hotels", { state: { destination, date, options } });
   };
+
+  const { user } = useContext(AuthContext);
   return (
     <div className="bg-blue-700 flex justify-center text-white relative">
       <div
@@ -85,9 +88,11 @@ export default function Header({ type }) {
               Get rewarded for your travels – unlock instant savings of 10% or
               more with a free Booking.com account
             </p>
-            <button className="hover:scale-110 duration-100 transition-all border rounded-xl py-1 px-2 font-medium mb-7 bg-blue-400">
-              Sign in / Register
-            </button>
+            {!user && (
+              <button className="hover:scale-110 duration-100 transition-all border rounded-xl py-1 px-2 font-medium mb-7 bg-blue-400">
+                Sign in / Register
+              </button>
+            )}
             <div className="h-8 bg-white border-2 flex items-center border-orange-400 justify-around py-6 rounded-md absolute bottom-[-24px] w-full max-w-5xl">
               <div className="flex items-center gap-5">
                 <FontAwesomeIcon icon={faBed} className="text-gray-400" />
